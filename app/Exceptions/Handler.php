@@ -38,4 +38,30 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($request->is("api/*")) {
+            if ($exception instanceof \Illuminate\Validation\ValidationException) {
+                return response()->json(
+                    $exception->errors(),
+                    $exception->status
+                );
+            } else if (
+                $exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException
+                || $exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+            ) {
+                return response()->json(['message' => 'Not Found'], 404);
+            } else if ($exception instanceof \Illuminate\Database\QueryException) {
+                return response()->json(['message' => 'Database Error'], 400);
+            } else {
+                if (config('app.debug')) {
+                    return response()->json(['message' => $exception->getMessage()], 500);
+                }
+                return response()->json(['message' => 'Internal Server Error'], 500);
+            }
+        }
+
+        return parent::render($request, $exception);
+    }
 }
