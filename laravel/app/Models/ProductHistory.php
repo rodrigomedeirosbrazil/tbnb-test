@@ -31,7 +31,7 @@ class ProductHistory extends Model
     {
         return $this
             ->where('product_id', $productId)
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->simplePaginate();
     }
 
