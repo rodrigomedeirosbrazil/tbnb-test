@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) =>
         table: {
             marginTop: theme.spacing(3)
         },
+        noProducts: {
+            textAlign: 'center'
+        }
     })
 );
 
@@ -97,40 +100,43 @@ export default function Products({ history }) {
                     </Link>
                 </div>
             </div>
-            {loading ? <FormLoadingComponent /> : (
-                <TableContainer component={Paper} className={classes.table}>
-                    <Table aria-label="Products">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Nome</TableCell>
-                                <TableCell>Price</TableCell>
-                                <TableCell>Quantity</TableCell>
-                                <TableCell width="140" align="center">
-                                    Actions
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.id}>
-                                    <TableCell component="th" scope="row">
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell>${row.price}</TableCell>
-                                    <TableCell>{row.quantity}</TableCell>
-                                    <TableCell align={'center'}>
-                                        <Link component={RouterLink} to={`/products/${row.id}`}>
-                                            <IconButton aria-label="edit">
-                                                <Edit />
-                                            </IconButton>
-                                        </Link>
+            {loading ? <FormLoadingComponent /> : 
+                rows.length > 0 ? (
+                    <TableContainer component={Paper} className={classes.table}>
+                        <Table aria-label="Products">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Nome</TableCell>
+                                    <TableCell>Price</TableCell>
+                                    <TableCell>Quantity</TableCell>
+                                    <TableCell width="140" align="center">
+                                        Actions
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            )}
+                            </TableHead>
+                            <TableBody>
+                                {rows.map((row) => (
+                                    <TableRow key={row.id}>
+                                        <TableCell component="th" scope="row">
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell>${row.price}</TableCell>
+                                        <TableCell>{row.quantity}</TableCell>
+                                        <TableCell align={'center'}>
+                                            <Link component={RouterLink} to={`/products/${row.id}`}>
+                                                <IconButton aria-label="edit">
+                                                    <Edit />
+                                                </IconButton>
+                                            </Link>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                ) 
+                : <h2 className={classes.noProducts}>No products are found.</h2>
+            }
             <Alert messageInfo={messageInfo} handleCloseMessage={handleCloseMessage} />
         </Box>
     );

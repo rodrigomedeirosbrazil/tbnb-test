@@ -48,7 +48,7 @@ export default function ProductForm({ history }) {
     let [initialValues, setInitialValues] = useState({
         name: '',
         price: '0.00',
-        quantity: '1',
+        quantity: '0',
     });
 
     const [serverErrors, setServerErrors] = useState({});

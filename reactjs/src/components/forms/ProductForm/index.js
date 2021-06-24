@@ -1,13 +1,10 @@
 import {
   TextField,
   Grid,
-  Select,
-  InputLabel,
-  MenuItem,
-  FormHelperText,
-  FormControl
 } from '@material-ui/core';
 import { get as _get } from 'lodash/object'
+
+import MoneyInput from '../../inputs/MoneyInput'
 
 const ProductFormComponent = (props) => {
   const { formik, serverErrors } = props
@@ -48,6 +45,8 @@ const ProductFormComponent = (props) => {
             label="Price"
             name="price"
             onChange={formik.handleChange}
+            InputProps={{ inputComponent: MoneyInput }}
+            InputLabelProps={{ shrink: true }}
             value={get(formik, 'values.price') || ''}
             error={
               (get(formik, 'touched.name') && Boolean(get(formik, 'errors.price')))
@@ -68,6 +67,7 @@ const ProductFormComponent = (props) => {
             label="Quantity"
             name="quantity"
             onChange={formik.handleChange}
+            InputProps={{ type: "number" }}
             value={get(formik, 'values.quantity') || ''}
             error={
               (get(formik, 'touched.quantity') && Boolean(get(formik, 'errors.quantity')))

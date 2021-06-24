@@ -1,26 +1,26 @@
 import { useState, useEffect } from 'react';
 
-import onlyNumbers from '../../utils/onlyNumbers';
+import normalizeCurrency from '../../utils/normalizeCurrency';
 
-const OnlyDigitsInput = (props) => {
+const MoneyInput = (props) => {
     const [ view, setView ] = useState('');
     const { inputRef, ...other } = props;
 
     useEffect(
         () => {
-            setView(onlyNumbers(props.value));
+            setView(normalizeCurrency(props.value));
         },
         [props.value]
     )
 
     const handleChange = (event) => {
         event.preventDefault();
-        const digits = onlyNumbers(event.target.value);
+        const currency = normalizeCurrency(event.target.value);
 
         const returnEvent = {
             target: {
                 name: props.name,
-                value: digits
+                value: currency
             }
         }
         props.onChange(returnEvent);
@@ -29,7 +29,7 @@ const OnlyDigitsInput = (props) => {
     return (
         <input
             {...other}
-            ref={(ref: any) => {
+            ref={(ref) => {
                 inputRef(ref ? ref.inputElement : null);
             }}
             value={view}
@@ -38,4 +38,4 @@ const OnlyDigitsInput = (props) => {
     );
 }
 
-export default OnlyDigitsInput;
+export default MoneyInput;
