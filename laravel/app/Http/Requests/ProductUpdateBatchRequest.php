@@ -27,8 +27,8 @@ class ProductUpdateBatchRequest extends FormRequest
             'products' => ['required', 'array'],
             'products.*.id' => ['required', 'exists:products,id'],
             'products.*.name' => ['nullable', 'string', 'max:150'],
-            'products.*.price' => ['nullable', 'numeric'],
-            'products.*.quantity' => ['nullable', 'numeric'],
+            'products.*.price' => ['nullable', 'numeric', 'gt:0'],
+            'products.*.quantity' => ['nullable', 'numeric', 'gt:0'],
         ];
     }
 }

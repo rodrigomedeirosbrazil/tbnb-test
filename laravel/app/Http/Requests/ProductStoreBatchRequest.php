@@ -26,8 +26,8 @@ class ProductStoreBatchRequest extends FormRequest
         return [
             'products' => ['required', 'array'],
             'products.*.name' => ['required', 'string', 'max:150'],
-            'products.*.price' => ['required', 'numeric'],
-            'products.*.quantity' => ['required', 'numeric'],
+            'products.*.price' => ['required', 'numeric', 'gt:0'],
+            'products.*.quantity' => ['required', 'numeric', 'gt:0'],
         ];
     }
 }
