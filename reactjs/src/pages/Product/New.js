@@ -1,5 +1,5 @@
-import ProductForm from './ProductForm';
+import ProductBatchForm from './ProductBatchForm';
 
 export default function ProductNew(props) {
-  return <ProductForm {...props} />;
+  return <ProductBatchForm {...props} />;
 }

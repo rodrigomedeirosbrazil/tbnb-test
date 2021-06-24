@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from "react-router";
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -16,6 +16,7 @@ import { Form, Formik } from "formik"
 import { updatedDiff } from "deep-object-diff";
 import * as Yup from 'yup';
 
+import ProductHistory from '../../components/screen/ProductHistory';
 import FormLoadingComponent from '../../components/screen/FormLoading';
 import Alert from '../../components/screen/Alert';
 
@@ -44,6 +45,7 @@ export default function ProductForm({ history }) {
     const [title, setTitle] = useState('Funcionário');
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
+    const productHistoryRef = useRef();
 
     let [initialValues, setInitialValues] = useState({
         name: '',
@@ -81,12 +83,6 @@ export default function ProductForm({ history }) {
         const partialValues = updatedDiff(initialValues, values);
 
         try {
-            if (!id) {
-                const product = await api.post(`/products`, partialValues)
-                history.push(`/products/${product.data.id}`);
-                return;
-            }
-
             await api.patch(`/products/${id}`, partialValues)
 
             setInitialValues({ ...initialValues, ...values });
@@ -96,8 +92,9 @@ export default function ProductForm({ history }) {
                 message: 'Update sucessfully!',
                 severity: 'info'
             });
-        } catch (error) {
 
+            productHistoryRef.current.updateHistory();
+        } catch (error) {
             if (!error.response) {
                 setMessageInfo({
                     show: true,
@@ -123,12 +120,8 @@ export default function ProductForm({ history }) {
     };
 
     useEffect(() => {
-        if (id) {
-            setTitle(`Product: #${id}`);
-            fetchProduct(id)
-        } else {
-            setTitle(`New Product`);
-        }
+        setTitle(`Product: #${id}`);
+        fetchProduct(id)
         // eslint-disable-next-line
     }, [id]);
 
@@ -196,6 +189,9 @@ export default function ProductForm({ history }) {
                         )}
                     </Formik>
                 )}
+                <Box mt={2}>
+                    <ProductHistory productId={id} ref={productHistoryRef} loading={loading} />
+                </Box>
             </Box>
             <Alert messageInfo={messageInfo} handleCloseMessage={handleCloseMessage} />
         </>
