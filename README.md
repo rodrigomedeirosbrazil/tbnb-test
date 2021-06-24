@@ -1,6 +1,13 @@
 # TurnoverBnB - Fullstack
 ### The project is a stock management system.
 
+## How to run:
+* Copy .env.example inside laravel directory to .env and configure database variables
+* Run php artisan migrate inside laravel directory
+* Run php artisan serve
+* Copy .env.example inside laravel directory to .env.development.local and configure.
+* Run npm start
+
 <b>The system should have these functionalities:</b>
 
 * Create a product
