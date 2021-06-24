@@ -7,7 +7,11 @@ import { get as _get } from 'lodash/object'
 import MoneyInput from '../../inputs/MoneyInput'
 
 const ProductFormComponent = (props) => {
-  const { formik, serverErrors } = props
+  const { namespace, formik, serverErrors } = props
+
+  const withNamespace = fieldName => {
+    return namespace ? `${namespace}.${fieldName}` : fieldName
+  }
 
   const get = (object, path) => {
     return _get(object, path)
@@ -23,16 +27,16 @@ const ProductFormComponent = (props) => {
             margin="normal"
             fullWidth
             label="Name"
-            name="name"
+            name={withNamespace('name')}
             onChange={formik.handleChange}
-            value={get(formik, 'values.name') || ''}
+            value={get(formik, 'values.' + withNamespace('name')) || ''}
             error={
-              (get(formik, 'touched.name') && Boolean(get(formik, 'errors.name')))
-              || (!!get(serverErrors, 'name'))
+              (get(formik, 'touched.' + withNamespace('name')) && Boolean(get(formik, 'errors.' + withNamespace('name')) ))
+              || (!!get(serverErrors, withNamespace('name')))
             }
             helperText={
-              (get(formik, 'touched.name') && get(formik, 'errors.name'))
-              || (get(serverErrors, 'name') && get(serverErrors, 'name').join('/'))
+              (get(formik, 'touched.' + withNamespace('name')) && get(formik, 'errors.' + withNamespace('name')))
+              || (get(serverErrors, withNamespace('name')) && get(serverErrors, withNamespace('name')).join('/'))
             }
           />
         </Grid>
@@ -43,18 +47,18 @@ const ProductFormComponent = (props) => {
             margin="normal"
             fullWidth
             label="Price"
-            name="price"
+            name={withNamespace('price')}
             onChange={formik.handleChange}
             InputProps={{ inputComponent: MoneyInput }}
             InputLabelProps={{ shrink: true }}
-            value={get(formik, 'values.price') || ''}
+            value={get(formik, 'values.' + withNamespace('price')) || ''}
             error={
-              (get(formik, 'touched.name') && Boolean(get(formik, 'errors.price')))
-              || (!!get(serverErrors, 'price'))
+              (get(formik, 'touched.' + withNamespace('price')) && Boolean(get(formik, 'errors.' + withNamespace('price'))))
+              || (!!get(serverErrors, withNamespace('price')))
             }
             helperText={
-              (get(formik, 'touched.price') && get(formik, 'errors.price'))
-              || (get(serverErrors, 'price') && get(serverErrors, 'price').join('/'))
+              (get(formik, 'touched.' + withNamespace('price')) && get(formik, 'errors.' + withNamespace('price')))
+              || (get(serverErrors, withNamespace('price')) && get(serverErrors, withNamespace('price')).join('/'))
             }
           />
         </Grid>
@@ -65,17 +69,17 @@ const ProductFormComponent = (props) => {
             margin="normal"
             fullWidth
             label="Quantity"
-            name="quantity"
+            name={withNamespace('quantity')}
             onChange={formik.handleChange}
             InputProps={{ type: "number" }}
-            value={get(formik, 'values.quantity') || ''}
+            value={get(formik, 'values.' + withNamespace('quantity')) || ''}
             error={
-              (get(formik, 'touched.quantity') && Boolean(get(formik, 'errors.quantity')))
-              || (!!get(serverErrors, 'quantity'))
+              (get(formik, 'touched.' + withNamespace('quantity')) && Boolean(get(formik, 'errors.' + withNamespace('quantity'))))
+              || (!!get(serverErrors, withNamespace('quantity')))
             }
             helperText={
-              (get(formik, 'touched.quantity') && get(formik, 'errors.quantity'))
-              || (get(serverErrors, 'quantity') && get(serverErrors, 'quantity').join('/'))
+              (get(formik, 'touched.' + withNamespace('quantity')) && get(formik, 'errors.' + withNamespace('quantity')))
+              || (get(serverErrors, withNamespace('quantity')) && get(serverErrors, withNamespace('quantity')).join('/'))
             }
           />
         </Grid>
