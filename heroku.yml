@@ -1,0 +1,6 @@
+build:
+  docker:
+    web: Dockerfile
+
+# You need to run:
+# heroku labs:enable --app=YOUR-APP runtime-new-layer-extract

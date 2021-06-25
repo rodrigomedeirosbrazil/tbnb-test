@@ -1,0 +1,3 @@
+docker/pgsqldata
+supervisord.log
+supervisord.pid
